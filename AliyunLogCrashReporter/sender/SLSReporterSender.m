@@ -1,0 +1,95 @@
+//
+//  SLSReporterSender.m
+//  AliyunLogCrashReporter
+//
+//  Created by gordon on 2021/5/19.
+//
+
+#import "SLSReporterSender.h"
+
+@implementation SLSReporterSender
+
+LogProducerClient *client = nil;
+NSString *endpoint;
+NSString *project;
+NSString const *logstore = @"sls-aysls-track-base";
+NSString *accessKeyId;
+NSString *accessKeySec;
+NSString *securityToken;
+
+- (void)initWithSLSConfig:(SLSConfig *)config {
+    endpoint = config.endpoint;
+    project = config.pluginLogproject;
+    
+    LogProducerConfig *logConfig = [[LogProducerConfig alloc] initWithEndpoint:endpoint project:project logstore:logstore accessKeyID:config.accessKeyId accessKeySecret:config.accessKeySecret securityToken:config.securityToken];
+    
+    [logConfig SetTopic:@"crash_report"];
+    [logConfig AddTag:@"crash_report" value:@"iOS"];
+    [logConfig SetPacketLogBytes:(1024 * 1024 * 5)];
+    [logConfig SetPacketLogCount: 4096];
+    [logConfig SetMaxBufferLimit:(64*1024*1024)];
+    [logConfig SetSendThreadCount:1];
+    
+    [logConfig SetPersistent:1];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = [[paths lastObject] stringByAppendingString:@"/crash_log.dat"];
+    [logConfig SetPersistentFilePath:path];
+    [logConfig SetPersistentForceFlush:0];
+    [logConfig SetPersistentMaxFileCount:10];
+    [logConfig SetPersistentMaxFileSize:(1024*1024*10)];
+    [logConfig SetPersistentMaxLogCount:65536];
+    
+    client = [[LogProducerClient alloc]initWithLogProducerConfig:logConfig callback:on_log_send_done];
+}
+
+void on_log_send_done(const char * config_name, log_producer_result result, size_t log_bytes, size_t compressed_bytes, const char * req_id, const char * message, const unsigned char * raw_buffer, void * userparams) {
+    if (result == LOG_PRODUCER_OK) {
+        printf("send success, config : %s, result : %d, log bytes : %d, compressed bytes : %d, request id : %s \n", config_name, (result), (int)log_bytes, (int)compressed_bytes, req_id);
+    } else {
+        printf("send fail   , config : %s, result : %d, log bytes : %d, compressed bytes : %d, request id : %s \n, error message : %s\n", config_name, (result), (int)log_bytes, (int)compressed_bytes, req_id, message);
+    }
+}
+
+- (BOOL)sendDada:(TCData *)tcdata {
+    if(nil == client) {
+        return NO;
+    }
+    
+    if(nil == tcdata) {
+        return NO;
+    }
+    
+    Log *log = [[Log alloc] init];
+    [log PutContent:@"local_time" value:tcdata.local_time];
+    [log PutContent:@"local_time" value:tcdata.local_time];
+    [log PutContent:@"local_timestamp" value:tcdata.local_timestamp];
+    [log PutContent:@"app_id" value:tcdata.app_id];
+    [log PutContent:@"app_name" value:tcdata.app_name];
+    [log PutContent:@"app_version" value:tcdata.app_version];
+    [log PutContent:@"channel" value:[TCData fillWithDashIfEmpty: tcdata.channel]];
+    [log PutContent:@"channel_name" value:[TCData fillWithDashIfEmpty: tcdata.channel_name]];
+    [log PutContent:@"user_nick" value:[TCData fillWithDashIfEmpty: tcdata.user_nick]];
+    [log PutContent:@"long_login_nick" value:[TCData fillWithDashIfEmpty: tcdata.long_login_nick]];
+    [log PutContent:@"logon_type" value:[TCData fillWithDashIfEmpty: tcdata.logon_type]];
+    [log PutContent:@"imei" value:tcdata.imei];
+    [log PutContent:@"imsi" value:tcdata.imsi];
+    [log PutContent:@"brand" value:tcdata.brand];
+    [log PutContent:@"device_model" value:tcdata.device_model];
+    [log PutContent:@"os" value:tcdata.os];
+    [log PutContent:@"os_version" value:tcdata.os_version];
+    [log PutContent:@"carrier" value:tcdata.carrier];
+    [log PutContent:@"access" value:[TCData fillWithDashIfEmpty: tcdata.access]];
+    [log PutContent:@"access_subtype" value:[TCData fillWithDashIfEmpty: tcdata.access_subtype]];
+    [log PutContent:@"root" value:tcdata.root];
+    [log PutContent:@"resolution" value:tcdata.resolution];
+    [log PutContent:@"event_id" value:tcdata.event_id];
+    [log PutContent:@"reserve3" value:tcdata.reserve3];
+    [log PutContent:@"reserve4" value:tcdata.reserve4];
+    [log PutContent:@"reserve5" value:tcdata.reserve5];
+    [log PutContent:@"reserve6" value:tcdata.reserve6];
+    [log PutContent:@"reserves" value:tcdata.reserves];
+    
+    return LogProducerOK == [client AddLog:log];
+}
+
+@end
