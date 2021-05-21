@@ -12,7 +12,7 @@
 LogProducerClient *client = nil;
 NSString *endpoint;
 NSString *project;
-NSString const *logstore = @"sls-aysls-track-base";
+NSString const *logstore = @"sls-alysls-track-base";
 NSString *accessKeyId;
 NSString *accessKeySec;
 NSString *securityToken;
