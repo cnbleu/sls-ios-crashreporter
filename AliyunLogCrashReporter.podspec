@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "AliyunLogCrashReporter"
-  spec.version      = "0.0.1"
+  spec.version      = "1.0.0"
   spec.summary      = "aliyun sls iOS log crash reporter"
 
   # This description is used to generate tags and improve search results.
@@ -138,5 +138,6 @@ https://help.aliyun.com/product/28958.html
 
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   # spec.dependency "JSONKit", "~> 1.4"
+  spec.dependency "AliyunLogCommon"
 
 end
