@@ -82,6 +82,7 @@
 		F88B644026564417000BBB81 /* WPKMobi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WPKMobi.framework; sourceTree = "<group>"; };
 		F89DB960265CE60B0086FE2A /* AliyunLogCrashReporter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AliyunLogCrashReporter.podspec; sourceTree = "<group>"; };
 		F89DB961265CE66F0086FE2A /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		F89DB962265D180F0086FE2A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +124,7 @@
 		F88B63E12654ABB5000BBB81 = {
 			isa = PBXGroup;
 			children = (
+				F89DB962265D180F0086FE2A /* README.md */,
 				F89DB961265CE66F0086FE2A /* LICENSE */,
 				F89DB960265CE60B0086FE2A /* AliyunLogCrashReporter.podspec */,
 				F88B644026564417000BBB81 /* WPKMobi.framework */,
