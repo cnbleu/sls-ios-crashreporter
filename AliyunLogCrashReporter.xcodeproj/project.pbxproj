@@ -80,6 +80,8 @@
 		F88B643C2656435C000BBB81 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/usr/lib/libc++.tbd"; sourceTree = DEVELOPER_DIR; };
 		F88B643E2656436A000BBB81 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		F88B644026564417000BBB81 /* WPKMobi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WPKMobi.framework; sourceTree = "<group>"; };
+		F89DB960265CE60B0086FE2A /* AliyunLogCrashReporter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AliyunLogCrashReporter.podspec; sourceTree = "<group>"; };
+		F89DB961265CE66F0086FE2A /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,8 @@
 		F88B63E12654ABB5000BBB81 = {
 			isa = PBXGroup;
 			children = (
+				F89DB961265CE66F0086FE2A /* LICENSE */,
+				F89DB960265CE60B0086FE2A /* AliyunLogCrashReporter.podspec */,
 				F88B644026564417000BBB81 /* WPKMobi.framework */,
 				F88B63ED2654ABB5000BBB81 /* AliyunLogCrashReporter */,
 				F88B63F82654ABB5000BBB81 /* AliyunLogCrashReporterTests */,
