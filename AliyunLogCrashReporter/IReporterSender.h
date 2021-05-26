@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface IReporterSender : NSObject
 - (void) initWithSLSConfig: (SLSConfig *)config;
 - (BOOL) sendDada: (TCData *)tcdata;
+- (void) resetSecurityToken:(NSString *)accessKeyId secret:(NSString *)accessKeySecret token:(NSString *)token;
 @end
 
 NS_ASSUME_NONNULL_END

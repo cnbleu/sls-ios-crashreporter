@@ -81,6 +81,10 @@ void monitorDirectory(SLSCrashReporterPlugin* plugin, dispatch_source_t _source,
     return YES;
 }
 
+- (void)resetSecurityToken:(NSString *)accessKeyId secret:(NSString *)accessKeySecret token:(NSString *)token {
+    [_sender resetSecurityToken:accessKeyId secret:accessKeySecret token:token];
+}
+
 #pragma mark - WPKMobi log directory monitor
 
 - (void) initWPKMobi: (SLSConfig *) config {
