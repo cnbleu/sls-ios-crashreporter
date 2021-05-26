@@ -99,6 +99,7 @@ https://help.aliyun.com/product/28958.html
 
   # spec.public_header_files = "Classes/**/*.h"
   spec.public_header_files = "AliyunLogCrashReporter/*.h", "AliyunLogCrashReporter/parser/*.h", "AliyunLogCrashReporter/sender/*.h"
+  spec.ios.vendored_frameworks = 'AliyunLogCrashReporter/WPKMobi.framework'
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -138,13 +139,19 @@ https://help.aliyun.com/product/28958.html
 
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   # spec.dependency "JSONKit", "~> 1.4"
-  spec.dependency "AliyunLogCommon", "~> 1.0.1"
-  spec.dependency "AliyunLogProducer", "~> 2.2.13"
-  spec.dependency "WPKMobi"
+  spec.dependency "AliyunLogCommon"
+  spec.dependency "AliyunLogProducer"
+  # spec.dependency "WPKMobi"
 
   spec.pod_target_xcconfig = {
     'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
   }
   spec.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+
+  spec.library = 'c++'
+  spec.xcconfig = {
+    'CLANG_CXX_LANGUAGE_STANDARD' => 'c++11',
+    'CLANG_CXX_LIBRARY' => 'libc++'
+  }
 
 end

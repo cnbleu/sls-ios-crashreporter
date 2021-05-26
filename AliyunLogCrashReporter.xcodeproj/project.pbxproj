@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		98CAC188265DF28100D0359F /* WPKMobi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98CAC187265DF28100D0359F /* WPKMobi.framework */; };
 		F88B63F52654ABB5000BBB81 /* AliyunLogCrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F88B63EB2654ABB5000BBB81 /* AliyunLogCrashReporter.framework */; };
 		F88B63FA2654ABB5000BBB81 /* AliyunLogCrashReporterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F88B63F92654ABB5000BBB81 /* AliyunLogCrashReporterTests.m */; };
 		F88B63FC2654ABB5000BBB81 /* AliyunLogCrashReporter.h in Headers */ = {isa = PBXBuildFile; fileRef = F88B63EE2654ABB5000BBB81 /* AliyunLogCrashReporter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -26,7 +27,6 @@
 		F88B643B26564342000BBB81 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F88B643A26564342000BBB81 /* SystemConfiguration.framework */; };
 		F88B643D2656435C000BBB81 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F88B643C2656435C000BBB81 /* libc++.tbd */; };
 		F88B643F2656436A000BBB81 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F88B643E2656436A000BBB81 /* libz.tbd */; };
-		F88B644126564417000BBB81 /* WPKMobi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F88B644026564417000BBB81 /* WPKMobi.framework */; };
 		FFB99A5B33EC2940D1DEBB8A /* Pods_AliyunLogCrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62FD9CDAF7C99CDB72A76681 /* Pods_AliyunLogCrashReporter.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +57,7 @@
 /* Begin PBXFileReference section */
 		3BD5416C30F403FA31E7EF45 /* Pods-AliyunLogCrashReporter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AliyunLogCrashReporter.release.xcconfig"; path = "Target Support Files/Pods-AliyunLogCrashReporter/Pods-AliyunLogCrashReporter.release.xcconfig"; sourceTree = "<group>"; };
 		62FD9CDAF7C99CDB72A76681 /* Pods_AliyunLogCrashReporter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AliyunLogCrashReporter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		98CAC187265DF28100D0359F /* WPKMobi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WPKMobi.framework; sourceTree = "<group>"; };
 		A9858DD80AEBC91844ED1C5E /* Pods-AliyunLogCrashReporter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AliyunLogCrashReporter.debug.xcconfig"; path = "Target Support Files/Pods-AliyunLogCrashReporter/Pods-AliyunLogCrashReporter.debug.xcconfig"; sourceTree = "<group>"; };
 		F88B63EB2654ABB5000BBB81 /* AliyunLogCrashReporter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AliyunLogCrashReporter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F88B63EE2654ABB5000BBB81 /* AliyunLogCrashReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AliyunLogCrashReporter.h; sourceTree = "<group>"; };
@@ -79,7 +80,6 @@
 		F88B643A26564342000BBB81 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		F88B643C2656435C000BBB81 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/usr/lib/libc++.tbd"; sourceTree = DEVELOPER_DIR; };
 		F88B643E2656436A000BBB81 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
-		F88B644026564417000BBB81 /* WPKMobi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WPKMobi.framework; sourceTree = "<group>"; };
 		F89DB960265CE60B0086FE2A /* AliyunLogCrashReporter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AliyunLogCrashReporter.podspec; sourceTree = "<group>"; };
 		F89DB961265CE66F0086FE2A /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		F89DB962265D180F0086FE2A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -93,7 +93,7 @@
 				F88B643F2656436A000BBB81 /* libz.tbd in Frameworks */,
 				F88B643D2656435C000BBB81 /* libc++.tbd in Frameworks */,
 				F88B643B26564342000BBB81 /* SystemConfiguration.framework in Frameworks */,
-				F88B644126564417000BBB81 /* WPKMobi.framework in Frameworks */,
+				98CAC188265DF28100D0359F /* WPKMobi.framework in Frameworks */,
 				F88B643926564339000BBB81 /* CoreGraphics.framework in Frameworks */,
 				F88B64072654AC00000BBB81 /* AliyunLogCommon.framework in Frameworks */,
 				FFB99A5B33EC2940D1DEBB8A /* Pods_AliyunLogCrashReporter.framework in Frameworks */,
@@ -127,7 +127,6 @@
 				F89DB962265D180F0086FE2A /* README.md */,
 				F89DB961265CE66F0086FE2A /* LICENSE */,
 				F89DB960265CE60B0086FE2A /* AliyunLogCrashReporter.podspec */,
-				F88B644026564417000BBB81 /* WPKMobi.framework */,
 				F88B63ED2654ABB5000BBB81 /* AliyunLogCrashReporter */,
 				F88B63F82654ABB5000BBB81 /* AliyunLogCrashReporterTests */,
 				F88B63EC2654ABB5000BBB81 /* Products */,
@@ -148,6 +147,7 @@
 		F88B63ED2654ABB5000BBB81 /* AliyunLogCrashReporter */ = {
 			isa = PBXGroup;
 			children = (
+				98CAC187265DF28100D0359F /* WPKMobi.framework */,
 				F88B64322654B930000BBB81 /* parser */,
 				F88B642D2654B56B000BBB81 /* sender */,
 				F88B63EE2654ABB5000BBB81 /* AliyunLogCrashReporter.h */,
@@ -499,6 +499,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/AliyunLogCrashReporter",
 				);
 				INFOPLIST_FILE = AliyunLogCrashReporter/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -534,6 +535,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/AliyunLogCrashReporter",
 				);
 				INFOPLIST_FILE = AliyunLogCrashReporter/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
