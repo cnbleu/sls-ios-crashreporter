@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "AliyunLogCrashReporter"
-  spec.version      = "1.0.0"
+  spec.version      = "1.0.1"
   spec.summary      = "aliyun sls iOS log crash reporter"
 
   # This description is used to generate tags and improve search results.
@@ -99,7 +99,7 @@ https://help.aliyun.com/product/28958.html
 
   # spec.public_header_files = "Classes/**/*.h"
   spec.public_header_files = "AliyunLogCrashReporter/*.h", "AliyunLogCrashReporter/parser/*.h", "AliyunLogCrashReporter/sender/*.h"
-  spec.ios.vendored_frameworks = 'AliyunLogCrashReporter/WPKMobi.framework'
+  spec.vendored_frameworks = 'WPKMobi.framework'
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
