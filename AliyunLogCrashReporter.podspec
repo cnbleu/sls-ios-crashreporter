@@ -99,7 +99,7 @@ https://help.aliyun.com/product/28958.html
 
   # spec.public_header_files = "Classes/**/*.h"
   spec.public_header_files = "AliyunLogCrashReporter/*.h", "AliyunLogCrashReporter/parser/*.h", "AliyunLogCrashReporter/sender/*.h"
-  spec.vendored_frameworks = 'WPKMobi.framework'
+  spec.vendored_frameworks = 'AliyunLogCrashReporter/WPKMobi.framework'
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
