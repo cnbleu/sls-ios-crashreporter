@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "AliyunLogCrashReporter"
-  spec.version      = "1.0.4"
+  spec.version      = "1.0.5"
   spec.summary      = "aliyun sls iOS log crash reporter"
 
   # This description is used to generate tags and improve search results.
@@ -126,7 +126,7 @@ https://help.aliyun.com/product/28958.html
 
   # spec.library   = "iconv"
   # spec.libraries = "iconv", "xml2"
-  spec.libraries = 'z'
+  spec.libraries = "z", "c++"
 
 
   # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -143,15 +143,5 @@ https://help.aliyun.com/product/28958.html
   spec.dependency "AliyunLogProducer"
   # spec.dependency "WPKMobi"
 
-  spec.pod_target_xcconfig = {
-    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
-  }
-  spec.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
-
-  spec.library = 'c++'
-  spec.xcconfig = {
-    'CLANG_CXX_LANGUAGE_STANDARD' => 'c++11',
-    'CLANG_CXX_LIBRARY' => 'libc++'
-  }
 
 end
