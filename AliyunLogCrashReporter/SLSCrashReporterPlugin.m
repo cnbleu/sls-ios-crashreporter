@@ -35,6 +35,7 @@ void monitorDirectory(SLSCrashReporterPlugin* plugin, dispatch_source_t _source,
     int const fd = open([[dirURL path]fileSystemRepresentation], O_EVTONLY);
     if (fd < 0) {
         NSLog(@"unable to open the path: %@", [dirURL path]);
+        return;
     }
     
     dispatch_source_t source = dispatch_source_create(DISPATCH_SOURCE_TYPE_VNODE, fd, DISPATCH_VNODE_WRITE, DISPATCH_TARGET_QUEUE_DEFAULT);
@@ -102,19 +103,41 @@ void monitorDirectory(SLSCrashReporterPlugin* plugin, dispatch_source_t _source,
     NSLog(@"initWPKMobi success.");
 }
 
+- (BOOL) checkAndCreateDirectory: (NSString*) dir {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:dir]) {
+        NSLog(@"checkAndCreateDirectory. %@ path not exists.", dir);
+        BOOL res = [fileManager createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:nil];
+        if (!res) {
+            NSLog(@"checkAndCreateDirectory. create directory %@ error.", dir);
+        }
+        return res;
+    }
+    return YES;
+}
+
 - (void) startLogDirectoryMonitor {
     // AppData/Library/.WPKLog/CrashLog
     // AppData/Library/.WPKLog/CrashStatLog
     NSString *libraryPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES).firstObject;
-    NSLog(@"libraryPath: %@", libraryPath);
+    NSLog(@"startLogDirectoryMonitor. libraryPath: %@", libraryPath);
     
     NSString *wpkLogpath = [libraryPath stringByAppendingPathComponent:@".WPKLog"];
+    if (![self checkAndCreateDirectory:wpkLogpath]) {
+        return;
+    }
     NSLog(@"wpkLogpath: %@", wpkLogpath);
     
     NSString *crashLogPath = [wpkLogpath stringByAppendingPathComponent:@"CrashLog"];
+    if (![self checkAndCreateDirectory:crashLogPath]) {
+        return;
+    }
     NSLog(@"crashLogPath: %@", crashLogPath);
     
     NSString *crashStatLogPath = [wpkLogpath stringByAppendingPathComponent:@"CrashStatLog"];
+    if (![self checkAndCreateDirectory:crashStatLogPath]) {
+        return;
+    }
     NSLog(@"CrashStatLogPath: %@", crashStatLogPath);
     
     monitorDirectory(self, self.crashLogSource, crashLogPath, ^(NSString *path) {
@@ -124,38 +147,6 @@ void monitorDirectory(SLSCrashReporterPlugin* plugin, dispatch_source_t _source,
     monitorDirectory(self, self.crashStatLogSource, crashStatLogPath, ^(NSString *path) {
         [self.fileParser parseFileWithType:@"crash_stat" andFilePath:path];
     });
-    
-//    [self.fileParser parseFileWithType:@"test" andFilePath:crashLogPath];
-//    [self startMonitorFolder:crashLogPath];
-}
-
-- (void) startMonitorFolder:(NSString *)path {
-    NSURL *dirURL = [NSURL URLWithString:path];
-    int const fd = open([[dirURL path]fileSystemRepresentation], O_EVTONLY);
-    if (fd < 0) {
-        NSLog(@"unable to open the path: %@", [dirURL path]);
-    }
-    
-    dispatch_source_t source = dispatch_source_create(DISPATCH_SOURCE_TYPE_VNODE, fd, DISPATCH_VNODE_WRITE, DISPATCH_TARGET_QUEUE_DEFAULT);
-    dispatch_source_set_event_handler(source, ^() {
-        unsigned long const type = dispatch_source_get_data(source);
-        switch (type) {
-            case DISPATCH_VNODE_WRITE: {
-                NSLog(@"directory changed. %@", path);
-                [self.fileParser parseFileWithType:@"crash" andFilePath:path];
-                break;
-            }
-            default:
-                break;
-        }
-    });
-    
-    dispatch_source_set_cancel_handler(source, ^{
-        close(fd);
-    });
-    
-    self.crashLogSource = source;
-    dispatch_resume(self.crashLogSource);
 }
 
 - (void) stopLogDirectoryMonitor {
