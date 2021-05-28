@@ -122,7 +122,7 @@ https://help.aliyun.com/product/28958.html
   #
 
   # spec.framework  = "SomeFramework"
-  # spec.frameworks = "SomeFramework", "AnotherFramework"
+  spec.frameworks = "SystemConfiguration", "CoreGraphics"
 
   # spec.library   = "iconv"
   # spec.libraries = "iconv", "xml2"
@@ -144,13 +144,15 @@ https://help.aliyun.com/product/28958.html
   # spec.dependency "WPKMobi"
 
   spec.pod_target_xcconfig = {
-    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
+#    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
+    'OTHER_LDFLAGS' => '-lObjC'
   }
-  spec.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+  
+#  spec.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 
-  spec.xcconfig = {
-    'CLANG_CXX_LANGUAGE_STANDARD' => 'c++11',
-    'CLANG_CXX_LIBRARY' => 'libc++'
-  }
+#  spec.xcconfig = {
+#    'CLANG_CXX_LANGUAGE_STANDARD' => 'c++11',
+#    'CLANG_CXX_LIBRARY' => 'libc++'
+#  }
 
 end
