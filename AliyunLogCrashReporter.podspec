@@ -144,11 +144,11 @@ https://help.aliyun.com/product/28958.html
   # spec.dependency "WPKMobi"
 
   spec.pod_target_xcconfig = {
-#    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
+    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
     'OTHER_LDFLAGS' => '-lObjC'
   }
   
-#  spec.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+  spec.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 
 #  spec.xcconfig = {
 #    'CLANG_CXX_LANGUAGE_STANDARD' => 'c++11',
