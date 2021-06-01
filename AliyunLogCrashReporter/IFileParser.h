@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) initWithSender: (IReporterSender *)sender andSLSConfig: (SLSConfig *)config;
 - (void) parseFileWithType: (NSString *) type andFilePath: (NSString *) filePath;
+- (void) updateConfig:(SLSConfig *)config;
 @end
 
 NS_ASSUME_NONNULL_END

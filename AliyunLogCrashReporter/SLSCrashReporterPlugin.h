@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SLSCrashReporterPlugin : IPlugin
 
+@property(nonatomic, strong) SLSConfig *config;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -15,6 +15,10 @@
 
 @implementation UCTraceFileParser
 
+- (void) updateConfig:(SLSConfig *)config {
+    [self setConfig:config];
+}
+
 - (void) parseFileWithType: (NSString *) type andFilePath: (NSString *) filePath {
     NSLog(@"parseFileWithType, tpye: %@, path: %@", type, filePath);
     
