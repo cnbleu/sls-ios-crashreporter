@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, strong) SLSConfig *config;
 
-- (void) updateConfig: (SLSConfig *)config;
+- (void) updateConfig:(SLSConfig *)config;
 
 @end
 
