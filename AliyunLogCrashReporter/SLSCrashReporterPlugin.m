@@ -85,14 +85,10 @@ void monitorDirectory(SLSCrashReporterPlugin* plugin, dispatch_source_t _source,
 }
 
 - (void)resetSecurityToken:(NSString *)accessKeyId secret:(NSString *)accessKeySecret token:(NSString *)token {
-    [super resetSecurityToken:accessKeyId secret:accessKeySecret token:token];
-    
     [_sender resetSecurityToken:accessKeyId secret:accessKeySecret token:token];
 }
 
 - (void)updateConfig:(SLSConfig *)config {
-    [super updateConfig:config];
-    
     if (config) {
         if (config.channel && ![@"" isEqual:config.channel]) {
             [self.config setChannel:config.channel];
