@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "AliyunLogCrashReporter"
-  spec.version      = "1.0.9"
+  spec.version      = "1.0.10"
   spec.summary      = "aliyun sls iOS log crash reporter"
 
   # This description is used to generate tags and improve search results.
@@ -148,7 +148,10 @@ https://help.aliyun.com/product/28958.html
     'OTHER_LDFLAGS' => '-lObjC'
   }
   
-  spec.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+  spec.user_target_xcconfig = {
+      'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64',
+      'OTHER_LDFLAGS' => '-lObjC'
+  }
 
 #  spec.xcconfig = {
 #    'CLANG_CXX_LANGUAGE_STANDARD' => 'c++11',
