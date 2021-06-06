@@ -21,6 +21,7 @@ NSString *securityToken;
 - (void)initWithSLSConfig:(SLSConfig *)config {
     endpoint = config.endpoint;
     project = config.pluginLogproject;
+    SLSLogV(@"endpoint: %@, project: %@", endpoint, project);
     
     logConfig = [[LogProducerConfig alloc] initWithEndpoint:endpoint project:project logstore:logstore accessKeyID:config.accessKeyId accessKeySecret:config.accessKeySecret securityToken:config.securityToken];
     
@@ -45,13 +46,14 @@ NSString *securityToken;
 
 - (void)resetSecurityToken:(NSString *)accessKeyId secret:(NSString *)accessKeySecret token:(NSString *)token {
     [logConfig ResetSecurityToken:accessKeyId accessKeySecret:accessKeySecret securityToken:token];
+    SLSLogV(@"resetSecurityToken success");
 }
 
 void on_log_send_done(const char * config_name, log_producer_result result, size_t log_bytes, size_t compressed_bytes, const char * req_id, const char * message, const unsigned char * raw_buffer, void * userparams) {
     if (result == LOG_PRODUCER_OK) {
-        printf("send success, config : %s, result : %d, log bytes : %d, compressed bytes : %d, request id : %s \n", config_name, (result), (int)log_bytes, (int)compressed_bytes, req_id);
+        SLSLogV(@"report success. config: %s, result: %d, log bytes: %d, compressed bytes: %d, request id: %s", config_name, (result), (int)log_bytes, (int)compressed_bytes, req_id);
     } else {
-        printf("send fail   , config : %s, result : %d, log bytes : %d, compressed bytes : %d, request id : %s \n, error message : %s\n", config_name, (result), (int)log_bytes, (int)compressed_bytes, req_id, message);
+        SLSLogV(@"report fail. config: %s, result: %d, log bytes: %d, compressed bytes: %d, request id: %s, error message : %s", config_name, (result), (int)log_bytes, (int)compressed_bytes, req_id, message);
     }
 }
 
@@ -67,7 +69,7 @@ void on_log_send_done(const char * config_name, log_producer_result result, size
     __block Log *log = [[Log alloc] init];
     [[tcdata toDictionary] enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         [log PutContent:key value:obj];
-        NSLog(@"log data. key: %@, value: %@", key, obj);
+        SLSLogV(@"key: %@, value: %@", key, obj);
     }];
     
     return LogProducerOK == [client AddLog:log];

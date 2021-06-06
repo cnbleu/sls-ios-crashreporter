@@ -23,6 +23,7 @@ typedef void(^content_changed_block)(NSString*);
 @property(nonatomic, strong) dispatch_source_t crashStatLogSource;
 
 - (void) initWPKMobi: (SLSConfig *)config;
+- (void) scanAndReport: (NSString *)path andType: (NSString *) type;
 - (void) startLogDirectoryMonitor;
 - (void) stopLogDirectoryMonitor;
 
@@ -34,7 +35,7 @@ void monitorDirectory(SLSCrashReporterPlugin* plugin, dispatch_source_t _source,
     NSURL *dirURL = [NSURL URLWithString:path];
     int const fd = open([[dirURL path]fileSystemRepresentation], O_EVTONLY);
     if (fd < 0) {
-        NSLog(@"unable to open the path: %@", [dirURL path]);
+        SLSLog(@"unable to open the path: %@", [dirURL path]);
         return;
     }
     
@@ -43,7 +44,7 @@ void monitorDirectory(SLSCrashReporterPlugin* plugin, dispatch_source_t _source,
         unsigned long const type = dispatch_source_get_data(source);
         switch (type) {
             case DISPATCH_VNODE_WRITE: {
-                NSLog(@"directory changed. %@", path);
+                SLSLogV(@"directory changed. %@", path);
                 hander(path);
                 break;
             }
@@ -129,23 +130,23 @@ void monitorDirectory(SLSCrashReporterPlugin* plugin, dispatch_source_t _source,
     
     [WPKSetup setIsEncryptLog:NO];
     [WPKSetup enableDebugLog:config.debuggable];
-    [WPKSetup setCrashWritenCallback:^NSString * _Nullable(const char * _Nonnull crashUUID, WPKCrashType crashType, NSException * _Nullable exception) {
-        NSLog(@"creashType: %zd, exception: ", crashType);
-        return @"test";
-    }];
+//    [WPKSetup setCrashWritenCallback:^NSString * _Nullable(const char * _Nonnull crashUUID, WPKCrashType crashType, NSException * _Nullable exception) {
+//        SLSLogV(@"creashType: %zd, exception: ", crashType);
+//        return @"test";
+//    }];
 //    [WPKSetup disableWPKReporter];
     [WPKSetup startWithAppName:config.pluginAppId];
     [WPKSetup sendAllReports];
-    NSLog(@"initWPKMobi success.");
+    SLSLogV(@"initWPKMobi success.");
 }
 
 - (BOOL) checkAndCreateDirectory: (NSString*) dir {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if (![fileManager fileExistsAtPath:dir]) {
-        NSLog(@"checkAndCreateDirectory. %@ path not exists.", dir);
+        SLSLogV(@"%@ path not exists.", dir);
         BOOL res = [fileManager createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:nil];
         if (!res) {
-            NSLog(@"checkAndCreateDirectory. create directory %@ error.", dir);
+            SLSLog(@"create directory %@ error.", dir);
         }
         return res;
     }
@@ -155,34 +156,44 @@ void monitorDirectory(SLSCrashReporterPlugin* plugin, dispatch_source_t _source,
 - (void) startLogDirectoryMonitor {
     // AppData/Library/.WPKLog/CrashLog
     // AppData/Library/.WPKLog/CrashStatLog
+    SLSLog(@"start");
     NSString *libraryPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES).firstObject;
-    NSLog(@"startLogDirectoryMonitor. libraryPath: %@", libraryPath);
+    SLSLogV(@"libraryPath: %@", libraryPath);
     
     NSString *wpkLogpath = [libraryPath stringByAppendingPathComponent:@".WPKLog"];
     if (![self checkAndCreateDirectory:wpkLogpath]) {
         return;
     }
-    NSLog(@"wpkLogpath: %@", wpkLogpath);
+    SLSLogV(@"wpkLogpath: %@", wpkLogpath);
     
     NSString *crashLogPath = [wpkLogpath stringByAppendingPathComponent:@"CrashLog"];
     if (![self checkAndCreateDirectory:crashLogPath]) {
         return;
     }
-    NSLog(@"crashLogPath: %@", crashLogPath);
+    SLSLogV(@"crashLogPath: %@", crashLogPath);
     
     NSString *crashStatLogPath = [wpkLogpath stringByAppendingPathComponent:@"CrashStatLog"];
     if (![self checkAndCreateDirectory:crashStatLogPath]) {
         return;
     }
-    NSLog(@"CrashStatLogPath: %@", crashStatLogPath);
+    SLSLogV(@"CrashStatLogPath: %@", crashStatLogPath);
+    
+    SLSLog(@"scan files in crash directory and report if file exsits");
+    [self scanAndReport:crashLogPath andType:@"crash"];
+    [self scanAndReport:crashStatLogPath andType:@"crash_stat"];
     
     monitorDirectory(self, self.crashLogSource, crashLogPath, ^(NSString *path) {
         [self.fileParser parseFileWithType:@"crash" andFilePath:path];
     });
-    
+
     monitorDirectory(self, self.crashStatLogSource, crashStatLogPath, ^(NSString *path) {
         [self.fileParser parseFileWithType:@"crash_stat" andFilePath:path];
     });
+}
+
+- (void)scanAndReport:(NSString *)path andType:(NSString *)type {
+    SLSLogV(@"type: %@, path: %@", type, path);
+    [self.fileParser parseFileWithType:type andFilePath:path];
 }
 
 - (void) stopLogDirectoryMonitor {

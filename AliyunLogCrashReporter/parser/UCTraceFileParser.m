@@ -20,16 +20,16 @@
 }
 
 - (void) parseFileWithType: (NSString *) type andFilePath: (NSString *) filePath {
-    NSLog(@"parseFileWithType, tpye: %@, path: %@", type, filePath);
+    SLSLogV(@"start. tpye: %@, path: %@", type, filePath);
     
     if(type.length == 0) {
-        NSLog(@"type is empty.");
+        SLSLog(@"type is empty.");
         return;
     }
     
     BOOL isDirectory;
     if(filePath.length == 0 || ![[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory: &isDirectory]) {
-        NSLog(@"file path is empty or file not exists.");
+        SLSLog(@"file path is empty or file not exists.");
         return;
     }
     
@@ -42,7 +42,7 @@
 }
 
 - (void) internalParseFileWithType: (NSString *)type andFilePath: (NSString *)filePath {
-    NSLog(@"internalParseFile. type: %@, path: %@", type, filePath);
+    SLSLogV(@"start. type: %@, path: %@", type, filePath);
     NSString *content = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     TCData *tcdata = [TCData createDefaultWithSLSConfig:self.config];
     
@@ -81,11 +81,13 @@
     }
     
     BOOL res = [self.sender sendDada:tcdata];
-    NSLog(@"internalParseFile. send res: %d", res);
+    SLSLogV(@"internalParseFileWithType. send res: %d", res);
     
     if (res) {
         res = [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
-        NSLog(@"internalParseFile. file remove res: %d", res);
+        SLSLogV(@"internalParseFileWithType. file remove res: %d", res);
+    } else {
+        SLSLog(@"data not sent, file will not be removed. file: %@", filePath);
     }
 }
 
