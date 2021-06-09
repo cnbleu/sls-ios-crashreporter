@@ -47,27 +47,50 @@
     TCData *tcdata = [TCData createDefaultWithSLSConfig:self.config];
     
     NSDictionary *reserves = nil;
+    NSString *uuid = @"";
+    NSString *time = @"";
+    
+    NSArray *lines = [content componentsSeparatedByString:@"\n"];
+    for (NSString *line in lines) {
+        // read uuid from dau file
+        if ([line containsString:@"dn"]) {
+            NSArray *chunks = [line componentsSeparatedByString:@"`"];
+            for (NSString *chunk in chunks) {
+                if ([chunk containsString:@"dn"]) {
+                    uuid = [chunk componentsSeparatedByString:@"="][1];
+                    break;
+                }
+            }
+            break;
+        }
+        
+        // read time from crash file
+        if ([line containsString:@"Date/Time:"]) {
+            NSArray *chunks = [line componentsSeparatedByString:@"Time:"];
+            if (chunks && [chunks count] == 2) {
+                time = [chunks objectAtIndex:1];
+            }
+            break;
+        }
+    }
+    
     if ([type isEqual:@"crash"]) {
         tcdata.event_id = @"61011";
         reserves = @{@"trace_file_name": [filePath lastPathComponent]};
+        
+        if ([time length] != 0) {
+            time = [time stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            // time format: 2021-06-09 19:32:17.341 +0800
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+            [dateFormatter setDateFormat:@"YYYY-MM-dd HH:mm:ss.SSS Z"];
+            NSDate *date = [dateFormatter dateFromString:time];
+            
+            tcdata.local_timestamp = [NSString stringWithFormat:@"%0.f", [date timeIntervalSince1970] * 1000];
+            [dateFormatter setDateFormat:@"YYYY-MM-dd HH:mm:ss:SSS"];
+            tcdata.local_time = [dateFormatter stringFromDate:date];
+        }
     } else if ([type isEqual:@"crash_stat"]) {
         tcdata.event_id = @"61030";
-
-        NSString *uuid = @"";
-        NSArray *lines = [content componentsSeparatedByString:@"\n"];
-        for (NSString *line in lines) {
-            if ([line containsString:@"dn"]) {
-                NSArray *chunks = [line componentsSeparatedByString:@"`"];
-                for (NSString *chunk in chunks) {
-                    if ([chunk containsString:@"dn"]) {
-                        uuid = [chunk componentsSeparatedByString:@"="][1];
-                        break;
-                    }
-                }
-                break;
-            }
-        }
-        
         reserves = @{@"trace_app_id":self.config.pluginAppId, @"trace_uuid": uuid};
     } else {
         tcdata.event_id = @"-1";

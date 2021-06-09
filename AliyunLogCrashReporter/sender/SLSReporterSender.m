@@ -72,6 +72,8 @@ void on_log_send_done(const char * config_name, log_producer_result result, size
         SLSLogV(@"key: %@, value: %@", key, obj);
     }];
     
+    [TimeUtils fixTime:log];
+    
     return LogProducerOK == [client AddLog:log];
 }
 
