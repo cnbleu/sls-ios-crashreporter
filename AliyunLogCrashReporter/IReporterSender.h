@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) initWithSLSConfig: (SLSConfig *)config;
 - (BOOL) sendDada: (TCData *)tcdata;
 - (void) resetSecurityToken:(NSString *)accessKeyId secret:(NSString *)accessKeySecret token:(NSString *)token;
+- (void) resetProject: (NSString *)endpoint project:(NSString *)project logstore:(NSString *)logstore;
 @end
 
 NS_ASSUME_NONNULL_END

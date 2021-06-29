@@ -13,7 +13,7 @@ LogProducerConfig *logConfig = nil;
 LogProducerClient *client = nil;
 NSString *endpoint;
 NSString *project;
-NSString const *logstore = @"sls-alysls-track-base";
+NSString * const logstore = @"sls-alysls-track-base";
 NSString *accessKeyId;
 NSString *accessKeySec;
 NSString *securityToken;
@@ -40,13 +40,27 @@ NSString *securityToken;
     [logConfig SetPersistentMaxFileCount:10];
     [logConfig SetPersistentMaxFileSize:(1024*1024*10)];
     [logConfig SetPersistentMaxLogCount:65536];
+    [logConfig SetDropDelayLog:0];
+    [logConfig SetDropUnauthorizedLog:0];
     
     client = [[LogProducerClient alloc]initWithLogProducerConfig:logConfig callback:on_log_send_done];
 }
 
 - (void)resetSecurityToken:(NSString *)accessKeyId secret:(NSString *)accessKeySecret token:(NSString *)token {
-    [logConfig ResetSecurityToken:accessKeyId accessKeySecret:accessKeySecret securityToken:token];
-    SLSLogV(@"resetSecurityToken success");
+    SLSLogV(@"accessKeyId: %@, accessKeySecret: %@, token: %@", accessKeyId, accessKeySecret, token);
+    if ([token length] == 0) {
+        [logConfig setAccessKeyId:accessKeyId];
+        [logConfig setAccessKeySecret:accessKeySecret];
+    } else {
+        [logConfig ResetSecurityToken:accessKeyId accessKeySecret:accessKeySecret securityToken:token];
+    }
+}
+
+- (void) resetProject:(NSString *)endpoint project:(NSString *)project logstore:(NSString *)logstore {
+    SLSLogV(@"endpoint: %@, project: %@, logstore: %@", endpoint, project, logstore);
+    [logConfig setEndpoint:endpoint];
+    [logConfig setProject:project];
+//    [logConfig setLogstore:logstore];
 }
 
 void on_log_send_done(const char * config_name, log_producer_result result, size_t log_bytes, size_t compressed_bytes, const char * req_id, const char * message, const unsigned char * raw_buffer, void * userparams) {
@@ -69,7 +83,7 @@ void on_log_send_done(const char * config_name, log_producer_result result, size
     __block Log *log = [[Log alloc] init];
     [[tcdata toDictionary] enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         [log PutContent:key value:obj];
-        SLSLogV(@"key: %@, value: %@", key, obj);
+//        SLSLogV(@"key: %@, value: %@", key, obj);
     }];
     
     [TimeUtils fixTime:log];
